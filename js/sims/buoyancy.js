@@ -189,7 +189,7 @@ export function mount(container, ctx) {
       let yy = 10;
       for (let i = 0; i < n; i++) { g.lineTo(cx + (i % 2 ? -6 : 6), yy + seg / 2); yy += seg; g.lineTo(cx, yy); }
       g.stroke(); g.restore();
-      label(g, 'الميزان: ' + f1(Wp) + ' N', cx + 14, (10 + yEnd) / 2, { align: 'left', color: '#fbbf24', size: 11 });
+      label(g, 'لو علّقته بميزان: ' + f1(Wp) + ' N', cx + 14, (10 + yEnd) / 2, { align: 'left', color: '#fbbf24', size: 11 });
     }
 
     // شريط الحالة أعلى اللوحة

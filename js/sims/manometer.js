@@ -45,8 +45,9 @@ export function mount(container, ctx) {
     if (Math.abs(hAnim - hT) < 0.05) hAnim = hT;
 
     // المهام (حسب قيمة المنزلق المستهدفة لا الحركة العابرة)
+    // read200 لا تُمنح بضغطة زر «مثال الكتاب» الجاهزة (27) — على المتدرب اصطياد القيمة بنفسه
     const absT = Math.abs(hT);
-    if (!done('read200') && absT >= 190 && absT <= 210) ctx.completeMission('read200');
+    if (!done('read200') && absT >= 190 && absT <= 210 && ![0, 27, -40].includes(P)) ctx.completeMission('read200');
     if (!done('vacuum') && P < -5) ctx.completeMission('vacuum');
 
     // الهندسة

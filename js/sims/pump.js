@@ -45,11 +45,16 @@ export function mount(container, ctx) {
     const open = Math.max(sValve.value / 100, 0.1);  // فتحة صمام الدفع
     const kd = 0.008 / (open * open);                // مقاومة النظام
     const shut = 35 * s * s;                         // رفع الإغلاق التام
-    const Q = shut > 15 ? Math.sqrt((shut - 15) / (0.02 + kd)) : 0;  // نقطة التشغيل L/s
+    let Q = shut > 15 ? Math.sqrt((shut - 15) / (0.02 + kd)) : 0;    // نقطة التشغيل L/s
     const sucOpen = SUCTION[sucIdx].open;
     const cav = sucOpen <= 0.25 && Q > 0.1;          // تكهف عند خنق السحب لربع فتحة
     const npshLow = sucOpen === 0.5;
-    const H = (shut - 0.02 * Q * Q) * (cav ? 0.8 : 1);  // التكهف يهبط بالرفع 20%
+    if (cav) {
+      // منحنى المضخة المتدهور (−20%): نحل التقاطع الجديد كي تبقى نقطة التشغيل على المنحنيين معًا
+      const shutC = 0.8 * shut;
+      Q = shutC > 15 ? Math.sqrt((shutC - 15) / (0.8 * 0.02 + kd)) : 0;
+    }
+    const H = (cav ? 0.8 : 1) * (shut - 0.02 * Q * Q);
     const Qbep = 22 * s;                             // تدفق أفضل كفاءة
     const eta = 0.75 * Math.max(0, 1 - Math.pow((Q - Qbep) / Qbep, 2));
     const P = eta > 0.02 && Q > 0 ? 9.81 * Q * H / eta / 1000 : 0;   // kW (ρ=1000)
@@ -213,17 +218,22 @@ export function mount(container, ctx) {
     }
     if (sucIdx > 0) label(c, 'لا تخنق السحب أبدًا — اخنق الدفع', W / 2, H2 - 9, { align: 'center', size: 11, color: '#fbbf24' });
 
-    // ===== المهام =====
+  });
+
+  // ===== المهام: مؤقّت مستقل عن حلقة الرسم كي لا تتعطل والمِنصّة خارج الشاشة =====
+  function checkMissions() {
+    if (!st) return;
+    const now = performance.now();
     if (!doneQ20) {
       if (st.Q >= 19 && st.Q <= 21) {
-        q20T += dt;
-        if (q20T >= 0.5) { doneQ20 = true; ctx.completeMission('q20'); toast('🎯 ثبّت التدفق على 20 لتر/ثانية — هذا هو المطلوب تمامًا!'); }
+        q20T ||= now;
+        if (now - q20T >= 500) { doneQ20 = true; ctx.completeMission('q20'); toast('🎯 ثبّت التدفق على 20 لتر/ثانية — هذا هو المطلوب تمامًا!'); }
       } else q20T = 0;
     }
     if (!doneSweet) {
       if (!st.cav && st.eta >= 0.675) {
-        sweetT += dt;
-        if (sweetT >= 0.6) { doneSweet = true; ctx.completeMission('sweet'); toast('🍀 تشغيل داخل منطقة أفضل كفاءة BEP — مضختك تشكرك!'); }
+        sweetT ||= now;
+        if (now - sweetT >= 600) { doneSweet = true; ctx.completeMission('sweet'); toast('🍀 تشغيل داخل منطقة أفضل كفاءة BEP — مضختك تشكرك!'); }
       } else sweetT = 0;
     }
     if (st.cav) cavSeen = true;
@@ -231,7 +241,8 @@ export function mount(container, ctx) {
       doneCav = true; ctx.completeMission('cavit');
       toast('🛠️ فتحت السحب كاملًا فزال التكهف — هكذا يتصرف فني الصيانة المحترف!');
     }
-  });
+  }
+  const missionTimer = setInterval(checkMissions, 250);
 
-  return { destroy() { kit.destroy(); } };
+  return { destroy() { clearInterval(missionTimer); kit.destroy(); } };
 }

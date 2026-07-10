@@ -64,7 +64,8 @@ export class SimKit {
     input.addEventListener('input', () => { show(+input.value); oninput?.(+input.value); });
     show(value);
     this.controls.append(el('div', { class: 'sim-row' }, el('label', {}, label), input, out));
-    return { get value() { return +input.value; }, set(v) { input.value = v; show(+v); }, input };
+    // set() يحاكي سحب المستخدم: يُحدّث العرض ويُبلّغ oninput كي لا تنفصل حالة المحاكاة
+    return { get value() { return +input.value; }, set(v) { input.value = v; show(+v); oninput?.(+v); }, input };
   }
 
   // أزرار
@@ -83,11 +84,15 @@ export class SimKit {
   readout() {
     const r = el('div', { class: 'sim-row', style: 'flex-wrap:wrap; gap:6px' });
     this.controls.prepend(r);
+    let last = '';
     return {
-      set(items) { // [{label, value, color}]
-        r.innerHTML = items.map(i =>
+      set(items) { // [{label, value, color}] — لا كتابة DOM إن لم تتغير القيم
+        const html = items.map(i =>
           `<span class="chip" style="${i.color ? 'color:' + i.color : ''}">${i.label}: <b style="direction:ltr; unicode-bidi:isolate">${i.value}</b></span>`
         ).join('');
+        if (html === last) return;
+        last = html;
+        r.innerHTML = html;
       }
     };
   }

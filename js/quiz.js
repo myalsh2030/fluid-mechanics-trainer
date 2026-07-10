@@ -4,10 +4,15 @@ import { award, XP } from './game.js';
 
 // container: عنصر DOM — quiz: {title, questions} — opts: {xpPerCorrect, onDone(result)}
 export function runQuiz(container, quiz, opts = {}) {
-  const questions = quiz.questions;
+  const questions = quiz.questions || [];
   const answers = [];
   let idx = 0;
   container.innerHTML = '';
+
+  if (!questions.length) {
+    opts.onDone?.({ score: 0, total: 0, answers: [], pct: 100 }, container);
+    return { getAnswers: () => answers };
+  }
 
   const bar = el('div', { class: 'pbar', style: 'margin-bottom:14px' }, el('div'));
   const stage = el('div');
@@ -18,8 +23,16 @@ export function runQuiz(container, quiz, opts = {}) {
     const q = questions[idx];
     stage.innerHTML = '';
 
-    const opts_ = q.t === 'tf' ? ['صحيح ✅', 'خطأ ❌'] : q.opts;
-    const correctIdx = q.t === 'tf' ? (q.correct ? 0 : 1) : q.correct;
+    // خلط خيارات الاختيار من متعدد (صح/خطأ تبقى بترتيبها الطبيعي)
+    let opts_, correctIdx;
+    if (q.t === 'tf') {
+      opts_ = ['صحيح ✅', 'خطأ ❌'];
+      correctIdx = q.correct ? 0 : 1;
+    } else {
+      const order = q.opts.map((_, i) => i).sort(() => Math.random() - 0.5);
+      opts_ = order.map(i => q.opts[i]);
+      correctIdx = order.indexOf(q.correct);
+    }
 
     const optBtns = opts_.map((o, i) =>
       el('button', { class: 'q-opt', html: o, onclick: () => pick(i) })

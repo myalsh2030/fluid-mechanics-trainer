@@ -5,10 +5,12 @@
 import { SimKit, label } from './simkit.js';
 import { el } from '../ui.js';
 
+// halve: كل كم درجة تنخفض اللزوجة للنصف — السوائل الثقيلة تتأثر بالحرارة أشد بكثير
+// (واقعيًا: لزوجة العسل تنهار مع التسخين بينما الماء يتغير قليلًا) — فالتسخين يقرّب النتائج
 const LIQUIDS = [
-  { id: 'water', name: 'ماء', en: 'Water', mu20: 0.001, c1: 'rgba(56,189,248,.30)', c2: 'rgba(14,116,178,.60)', chip: '#38bdf8' },
-  { id: 'oil', name: 'زيت زيتون', en: 'Olive Oil', mu20: 0.084, c1: 'rgba(202,186,60,.35)', c2: 'rgba(133,114,20,.65)', chip: '#fbbf24' },
-  { id: 'honey', name: 'عسل', en: 'Honey', mu20: 1.5, c1: 'rgba(217,119,6,.55)', c2: 'rgba(120,53,15,.85)', chip: '#fb923c' },
+  { id: 'water', name: 'ماء', en: 'Water', mu20: 0.001, halve: 35, c1: 'rgba(56,189,248,.30)', c2: 'rgba(14,116,178,.60)', chip: '#38bdf8' },
+  { id: 'oil', name: 'زيت زيتون', en: 'Olive Oil', mu20: 0.084, halve: 20, c1: 'rgba(202,186,60,.35)', c2: 'rgba(133,114,20,.65)', chip: '#fbbf24' },
+  { id: 'honey', name: 'عسل', en: 'Honey', mu20: 1.5, halve: 10, c1: 'rgba(217,119,6,.55)', c2: 'rgba(120,53,15,.85)', chip: '#fb923c' },
 ];
 const MEDALS = ['🥇', '🥈', '🥉'];
 const T_REF = 7.23, T_EXP = 0.26, T_MIN = 0.7; // معايرة زمن العرض
@@ -25,8 +27,8 @@ export function mount(container, ctx) {
   const balls = LIQUIDS.map(() => ({ p: 0, t: 0, v: 0, done: false, tFin: 0, rank: -1 }));
 
   // ===== الحسابات =====
-  // اللزوجة تنخفض للنصف تقريبًا كل +30°C تسخين
-  const muAt = i => LIQUIDS[i].mu20 * Math.pow(0.5, (tempS.value - 20) / 30);
+  // اللزوجة تنخفض للنصف كل halve درجة — لكل سائل حساسيته الخاصة للحرارة
+  const muAt = i => LIQUIDS[i].mu20 * Math.pow(0.5, (tempS.value - 20) / LIQUIDS[i].halve);
   const fallTime = mu => Math.max(T_MIN, T_REF * Math.pow(mu, T_EXP));
   const fmtMu = m => m >= 100 ? Math.round(m) : m >= 10 ? m.toFixed(0) : m >= 1 ? m.toFixed(1) : m.toFixed(2);
 

@@ -25,7 +25,7 @@ export function mount(container, ctx) {
 
   let w = 0.8, hh = 0.5, L = 30, Q = 2;
   let spin = 0;
-  const press = { sq: null, flat: null, lastKind: '' };
+  const press = { sq: false, flat: false, lastKind: '' };
   const done = {
     kw1: !!(ctx.isMissionDone && ctx.isMissionDone('kw1')),
     shape: !!(ctx.isMissionDone && ctx.isMissionDone('shape')),
@@ -59,16 +59,25 @@ export function mount(container, ctx) {
     w = Math.round(nw * 100) / 100;
     hh = Math.round(nh * 100) / 100;
     sW.set(w); sH.set(hh);
-    press[kind] = calc().dp;
-    if (press.sq !== null && press.flat !== null) {
-      if (!done.shape) { done.shape = true; ctx.completeMission('shape'); }
-      if (press.lastKind !== kind) {
-        const a = press.sq, b = press.flat;
-        if (b > a * 1.03) {
-          toast('🏆 بنفس المساحة: فقد المربع ' + fmtDp(a) + ' مقابل ' + fmtDp(b) + ' للمسطّح — المربع يوفّر ' + Math.round((1 - a / b) * 100) + '%!');
-        } else {
-          toast('⚖️ حدود المنزلقات قصّت الشكلين هنا — جرّب مساحة أصغر لترى الفرق');
-        }
+    press[kind] = true; // سُجّل استخدام هذا الزر
+    if (press.sq && press.flat && press.lastKind !== kind) {
+      // مقارنة حيّة بقيم اللحظة الحالية (لا قيم مخزنة من ضغطة سابقة قد تكون بمعطيات مختلفة)
+      const A2 = w * hh;
+      const shapeDp = (targetH) => {
+        let th = clamp(targetH, 0.1, 1);
+        const tw = clamp(A2 / th, 0.2, 2);
+        th = clamp(A2 / tw, 0.1, 1);
+        const De2 = 4 * (tw * th) / (2 * (tw + th));
+        const v2 = Q / (tw * th);
+        return F * (L / De2) * (RHO * v2 * v2 / 2);
+      };
+      const a = shapeDp(Math.sqrt(A2)), b = shapeDp(Math.sqrt(A2 / 4));
+      if (b > a * 1.03) {
+        toast('🏆 بنفس المساحة: فقد المربع ' + fmtDp(a) + ' مقابل ' + fmtDp(b) + ' للمسطّح — المربع يوفّر ' + Math.round((1 - a / b) * 100) + '%!');
+        // المهمة تُنجز فقط عند معاينة فرق حقيقي بين الشكلين
+        if (!done.shape) { done.shape = true; ctx.completeMission('shape'); }
+      } else {
+        toast('⚖️ حدود المنزلقات قصّت الشكلين هنا — جرّب مساحة أصغر لترى الفرق');
       }
     }
     press.lastKind = kind;
@@ -102,7 +111,8 @@ export function mount(container, ctx) {
   function geom() {
     const W = kit.W, H = kit.H;
     const hPix = H * (0.16 + 0.28 * (hh - 0.1) / 0.9);
-    const d = 16 + (H * 0.22 - 16) * (w - 0.2) / 1.8;
+    // سقف للعمق كي لا يُقص الوجه الخلفي وملصق Δp خارج يسار اللوحة
+    const d = Math.min(16 + (H * 0.22 - 16) * (w - 0.2) / 1.8, (46 - 6) / 0.62);
     const cy = H * 0.56;
     return {
       W, H, cy, hPix,
@@ -201,7 +211,10 @@ export function mount(container, ctx) {
   function drawInfo(c, g, cc) {
     label(c, 'المقطع w × h: ' + w.toFixed(2) + ' × ' + hh.toFixed(2) + ' m', g.W / 2, 16,
       { size: 12.5, align: 'center', color: '#e2e8f0' });
-    if (cc.v > 15) {
+    if (cc.v > 30) {
+      label(c, '🚫 خارج نطاق التصميم الواقعي — المجاري الحقيقية لا تتجاوز ~20 m/s', g.W / 2, 34,
+        { size: 11.5, align: 'center', color: '#f87171' });
+    } else if (cc.v > 15) {
       label(c, '⚠️ السرعة عالية جدًا — ضوضاء واهتزاز!', g.W / 2, 34,
         { size: 12, align: 'center', color: '#f87171' });
     }

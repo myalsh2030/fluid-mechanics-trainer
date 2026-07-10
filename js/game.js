@@ -80,12 +80,14 @@ export function grantBadge(id) {
   return true;
 }
 
-// تُستدعى عند فتح التطبيق: تحديث سلسلة الأيام
+// تُستدعى عند فتح التطبيق وعند العودة إليه: تحديث سلسلة الأيام (بالتوقيت المحلي)
+const dayKey = (d) => `${d.getFullYear()}-${d.getMonth() + 1}-${d.getDate()}`;
+
 export function touchStreak() {
   const s = getState();
-  const today = new Date().toISOString().slice(0, 10);
+  const today = dayKey(new Date());
   if (s.streak.last === today) return;
-  const y = new Date(Date.now() - 86400000).toISOString().slice(0, 10);
+  const y = dayKey(new Date(Date.now() - 86400000));
   s.streak.count = (s.streak.last === y) ? s.streak.count + 1 : 1;
   s.streak.last = today;
   save();

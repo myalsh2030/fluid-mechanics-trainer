@@ -58,7 +58,7 @@ export function mount(container, ctx) {
     } else {
       kit.slider({ label: 'حرارة السائل', min: 25, max: 90, step: 1, value: st.Tb, unit: '°C', oninput: v => { st.Tb = v; } });
       kit.slider({ label: 'خنق صمام السحب', min: 0, max: 100, step: 1, value: st.thr, unit: '%', oninput: v => { st.thr = v; } });
-      hint('خنق السحب يُهبط الضغط عند <span class="term">عين الدافعة <i>Impeller Eye</i></span> — فإذا نزل تحت ضغط البخار بدأ <span class="term">التكهف <i>Cavitation</i></span>!');
+      hint('خنق السحب يُهبط الضغط عند <span class="term">عين الدافعة <i>Impeller Eye</i></span> — فإذا نزل تحت ضغط البخار بدأ <span class="term">التكهف <i>Cavitation</i></span>! وكلما كان السائل أسخن صار التكهف أسهل وأسرع.');
     }
     read = kit.readout();
     // إعادة قياس اللوحة بعد تبديل التحكمات
@@ -157,7 +157,7 @@ export function mount(container, ctx) {
   function drawPump(g, dt, t) {
     const W = kit.W, H = kit.H;
     const Pv = pvap(st.Tb);
-    const localP = 101 - (st.thr / 100) * 96; // من 101 حتى 5 kPa
+    const localP = 101 - (st.thr / 100) * 99; // من 101 حتى 2 kPa — الخنق الكامل يكفي وحده للتكهف عند 25°C
     const cavON = localP <= Pv;
     const pipeY = H * 0.56, ph2 = H * 0.10;
     const tkX = W * 0.68, tkW = W * 0.26, tkY = H * 0.14, tkH = pipeY + ph2 - tkY;

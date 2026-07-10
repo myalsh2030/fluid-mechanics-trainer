@@ -32,7 +32,7 @@ export function mount(container, ctx) {
   const read = kit.readout();
 
   const depthSlider = kit.slider({
-    label: 'العمق h', min: 0, max: 30, step: 0.5, value: depth, unit: 'm',
+    label: 'العمق h', min: 0, max: 35, step: 0.5, value: depth, unit: 'm',
     fmt: v => v.toFixed(1),
     oninput: v => { depth = v; touched = true; },
   });
@@ -57,11 +57,11 @@ export function mount(container, ctx) {
   const cv = kit.canvas;
   const geo = () => {
     const ySurf = kit.H * 0.13, yBot = kit.H * 0.97;
-    return { ySurf, yBot, pxPerM: (yBot - ySurf) / 30 };
+    return { ySurf, yBot, pxPerM: (yBot - ySurf) / 35 };
   };
   function setDepthFromY(y) {
     const { ySurf, pxPerM } = geo();
-    depth = Math.round(Math.max(0, Math.min(30, (y - ySurf) / pxPerM)) * 2) / 2;
+    depth = Math.round(Math.max(0, Math.min(35, (y - ySurf) / pxPerM)) * 2) / 2;
     depthSlider.set(depth);
     touched = true;
   }

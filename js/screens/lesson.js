@@ -17,8 +17,26 @@ export function renderLesson(app, lessonId) {
 
   const ls = lessonState(lessonId);
   const blocks = lesson.blocks || [];
+  if (!blocks.length) {
+    app.append(el('div', { class: 'card center' },
+      el('div', { style: 'font-size:40px' }, '🚧'),
+      el('p', { class: 'muted' }, 'محتوى هذا الدرس غير متوفر حاليًا.'),
+      el('a', { class: 'btn secondary', href: `#/unit/${unit.id}` }, 'العودة للوحدة'),
+    ));
+    return;
+  }
   let cursor = Math.min(ls.stepsDone || 0, Math.max(blocks.length - 1, 0));
   const hosts = []; // محاكيات نشطة للتنظيف
+
+  // مكافأة نشاط تُمنح مرة واحدة فقط مهما أُعيد فتح الدرس (تُحفظ فورًا)
+  function awardActivity(i, label) {
+    ls.acts ||= {};
+    if (ls.acts[i]) return;
+    ls.acts[i] = true;
+    save();
+    award(XP.activity, label);
+  }
+  const activityDone = (i) => !!ls.acts?.[i];
 
   const bar = el('div', { class: 'pbar', style: 'flex:1' }, el('div'));
   const count = el('div', { class: 'lp-count' });
@@ -70,6 +88,7 @@ export function renderLesson(app, lessonId) {
 
   function renderBlock(idx, alreadyDone) {
     const b = blocks[idx];
+    alreadyDone = alreadyDone || activityDone(idx);
     const isLast = idx === blocks.length - 1;
     let node = null, gate = false; // gate: النشاط يفتح المتابعة بنفسه
 
@@ -125,7 +144,8 @@ export function renderLesson(app, lessonId) {
         gate = !alreadyDone;
         const flipped = new Set();
         const cards = (b.cards || []).map((c, ci) => {
-          const fc = el('div', { class: 'flipcard' },
+          const fc = el('div', { class: 'flipcard', tabindex: '0', role: 'button',
+            onkeydown: (e) => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); fc.click(); } } },
             el('div', { class: 'fc-in' },
               el('div', { class: 'fc-face fc-front', html: c.front }),
               el('div', { class: 'fc-face fc-back', html: c.back }),
@@ -145,7 +165,7 @@ export function renderLesson(app, lessonId) {
           el('div', { class: 'flip-grid' }, cards),
         );
         var unlock = () => {
-          if (!alreadyDone) award(XP.activity, 'نشاط تفاعلي');
+          awardActivity(idx, 'نشاط تفاعلي');
           node.append(continueBtn(idx, isLast ? 'إنهاء' : 'متابعة ⬇️'));
         };
         break;
@@ -183,9 +203,12 @@ export function renderLesson(app, lessonId) {
         ));
         const stage = el('div');
         node.append(stage);
+        // XP للأسئلة في أول محاولة فقط (منع تكرار الكسب بإعادة الدخول)
+        const allowQuizXp = !ls.done && !ls.quizTried;
+        ls.quizTried = true;
+        save();
         runQuiz(stage, quiz, {
-          // لا XP على إعادة اختبار درس مكتمل (منع تكرار الكسب)
-          xpPerCorrect: lessonState(lessonId).done ? 0 : undefined,
+          xpPerCorrect: allowQuizXp ? undefined : 0,
           onDone(result) {
             finishLesson(result, stage);
           },
@@ -228,7 +251,7 @@ export function renderLesson(app, lessonId) {
         selA = null;
         matched++;
         if (matched === pairs.length) {
-          if (!alreadyDone) award(XP.activity, 'نشاط توصيل');
+          awardActivity(idx, 'نشاط توصيل');
           confetti(14);
           node.append(continueBtn(idx));
         }
@@ -254,7 +277,8 @@ export function renderLesson(app, lessonId) {
     let expect = 0;
 
     const els = shuffled.map(it => {
-      const n = el('div', { class: 'order-item' },
+      const n = el('div', { class: 'order-item', tabindex: '0', role: 'button',
+        onkeydown: (e) => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); n.click(); } } },
         el('div', { class: 'oi-n' }, '؟'),
         el('div', { html: it.txt }),
       );
@@ -265,7 +289,7 @@ export function renderLesson(app, lessonId) {
           n.querySelector('.oi-n').textContent = expect + 1;
           expect++;
           if (expect === items.length) {
-            if (!alreadyDone) award(XP.activity, 'ترتيب صحيح');
+            awardActivity(idx, 'ترتيب صحيح');
             confetti(14);
             node.append(continueBtn(idx));
           }

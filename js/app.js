@@ -75,6 +75,11 @@ touchStreak();
 updateTopbar();
 route();
 
+// PWA مفتوح عبر منتصف الليل: حدّث السلسلة عند العودة للتطبيق
+document.addEventListener('visibilitychange', () => {
+  if (!document.hidden) touchStreak();
+});
+
 // إخفاء شاشة البداية
 setTimeout(() => {
   const sp = document.getElementById('splash');

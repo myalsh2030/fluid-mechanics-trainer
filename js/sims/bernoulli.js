@@ -207,7 +207,7 @@ export function mount(container, ctx) {
     const px0 = 16;
     const barMax = H * 0.42;
     const bBase = 28 + barMax;
-    const bScale = barMax / 4;
+    const bScale = barMax / 4.6; // متسع علوي كي لا تتصادم التسميات مع العنوان عند h القصوى
 
     label(c, 'ميزان الطاقة (m ماء)', px0 + panelW / 2, 14, { size: 11.5, align: 'center' });
     for (let i = 0; i < 3; i++) {
@@ -229,7 +229,7 @@ export function mount(container, ctx) {
     c.lineWidth = 1.5;
     c.beginPath(); c.moveTo(px0 - 6, ty); c.lineTo(px0 + panelW + 6, ty); c.stroke();
     c.setLineDash([]);
-    label(c, 'الإجمالي ' + tot.toFixed(1), px0 + panelW / 2, ty - 10, { size: 10.5, color: '#fbbf24', align: 'center' });
+    label(c, 'الإجمالي ' + tot.toFixed(1), px0 + panelW / 2, Math.max(ty - 10, 26), { size: 10.5, color: '#fbbf24', align: 'center' });
   });
 
   return {

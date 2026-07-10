@@ -22,7 +22,21 @@ function load() {
     const raw = localStorage.getItem(KEY);
     if (!raw) return structuredClone(DEFAULTS);
     const parsed = JSON.parse(raw);
-    return Object.assign(structuredClone(DEFAULTS), parsed);
+    const merged = Object.assign(structuredClone(DEFAULTS), parsed);
+    // تطبيع الأنواع: قيمة تالفة في مفتاح واحد لا يجوز أن تعلّق التطبيق كله
+    for (const k of Object.keys(DEFAULTS)) {
+      const def = DEFAULTS[k], v = merged[k];
+      if (def !== null && typeof def === 'object' && !Array.isArray(def)) {
+        if (v === null || typeof v !== 'object' || Array.isArray(v)) merged[k] = structuredClone(def);
+      } else if (Array.isArray(def) && !Array.isArray(v)) merged[k] = [];
+      else if (typeof def === 'number' && typeof v !== 'number') merged[k] = def;
+      else if (typeof def === 'boolean' && typeof v !== 'boolean') merged[k] = def;
+    }
+    if (merged.profile !== null && (typeof merged.profile !== 'object' || !merged.profile?.name)) merged.profile = null;
+    if (merged.diag !== null && typeof merged.diag !== 'object') merged.diag = null;
+    if (typeof merged.streak.last !== 'string') merged.streak.last = '';
+    if (typeof merged.streak.count !== 'number') merged.streak.count = 0;
+    return merged;
   } catch {
     return structuredClone(DEFAULTS);
   }

@@ -1,5 +1,5 @@
 // عامل الخدمة: كاش كامل للعمل دون اتصال
-const CACHE_VERSION = 'fm-v1';
+const CACHE_VERSION = 'fm-v2';
 
 const ASSETS = [
   './',
@@ -51,10 +51,10 @@ const ASSETS = [
   './data/unit4.js',
 ];
 
+// ملاحظة: بدون skipWaiting — النسخة الجديدة تعمل في الزيارة التالية،
+// كي لا تختلط وحدات محمّلة كسولًا من نسختين مختلفتين في جلسة مفتوحة.
 self.addEventListener('install', (e) => {
-  e.waitUntil(
-    caches.open(CACHE_VERSION).then(c => c.addAll(ASSETS)).then(() => self.skipWaiting())
-  );
+  e.waitUntil(caches.open(CACHE_VERSION).then(c => c.addAll(ASSETS)));
 });
 
 self.addEventListener('activate', (e) => {

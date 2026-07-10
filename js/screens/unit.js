@@ -16,7 +16,7 @@ export function renderUnit(app, unitId) {
 
   app.append(
     el('div', { class: 'lp-head' },
-      el('button', { class: 'lp-close', onclick: () => history.back() }, '→'),
+      el('button', { class: 'lp-close', onclick: () => { location.hash = '#/'; } }, '→'),
       el('div', { style: 'flex:1' },
         el('div', { style: 'font-weight:800; font-size:17px' }, `${u.icon} ${u.title}`),
         el('div', { class: 'small muted' }, u.tagline || ''),

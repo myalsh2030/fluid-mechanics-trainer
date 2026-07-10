@@ -163,12 +163,14 @@ export function mount(container, ctx) {
     const key = d2 + '|' + Q;
     if (key === lastKey) return;
     lastKey = key;
-    read.set([
+    const rows = [
       { label: 'v<sub>1</sub>', value: cc.v1.toFixed(2) + ' m/s', color: '#38bdf8' },
       { label: 'v<sub>2</sub>', value: cc.v2.toFixed(2) + ' m/s', color: cc.v2 >= 8 ? '#fbbf24' : '#22d3ee' },
       { label: 'نسبة التسارع v2/v1', value: '×' + cc.ratio.toFixed(1), color: cc.ratio >= 4 ? '#fbbf24' : '#a78bfa' },
       { label: 'A×v ثابت دائمًا', value: Q + ' L/s', color: '#34d399' },
-    ]);
+    ];
+    if (cc.v2 > 30) rows.push({ label: '⚠️', value: 'غير واقعي — أنبوب حقيقي يتكهف قبل هذه السرعة!', color: '#f87171' });
+    read.set(rows);
   }
 
   kit.loop((c, dt) => {
