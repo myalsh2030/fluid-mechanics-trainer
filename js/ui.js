@@ -72,3 +72,13 @@ export function modal(contentNode, { closable = true } = {}) {
 export function fmt(n, digits = 0) {
   return Number(n).toLocaleString('ar-EG', { maximumFractionDigits: digits, minimumFractionDigits: 0 });
 }
+
+// خلط فيشر-ييتس غير منحاز؛ يرجع نسخة جديدة
+export function shuffled(arr) {
+  const a = arr.slice();
+  for (let i = a.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [a[i], a[j]] = [a[j], a[i]];
+  }
+  return a;
+}

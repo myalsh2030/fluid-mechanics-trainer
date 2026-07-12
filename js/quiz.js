@@ -1,5 +1,5 @@
 // محرك الاختبارات: يعرض سؤالًا سؤالًا مع تغذية راجعة فورية
-import { el } from './ui.js';
+import { el, shuffled } from './ui.js';
 import { award, XP } from './game.js';
 
 // container: عنصر DOM — quiz: {title, questions} — opts: {xpPerCorrect, onDone(result)}
@@ -29,7 +29,7 @@ export function runQuiz(container, quiz, opts = {}) {
       opts_ = ['صحيح ✅', 'خطأ ❌'];
       correctIdx = q.correct ? 0 : 1;
     } else {
-      const order = q.opts.map((_, i) => i).sort(() => Math.random() - 0.5);
+      const order = shuffled(q.opts.map((_, i) => i));
       opts_ = order.map(i => q.opts[i]);
       correctIdx = order.indexOf(q.correct);
     }

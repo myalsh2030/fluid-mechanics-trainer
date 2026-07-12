@@ -1,5 +1,5 @@
 // مشغّل الدرس: بطاقات متتابعة + أنشطة تفاعلية + نقطة تفتيش
-import { el, toast, confetti } from '../ui.js';
+import { el, toast, confetti, shuffled } from '../ui.js';
 import { getState, save, lessonState } from '../store.js';
 import { award, grantBadge, XP, checkBadges } from '../game.js';
 import { runQuiz, resultCard } from '../quiz.js';
@@ -232,8 +232,10 @@ export function renderLesson(app, lessonId) {
   // ---- توصيل / ترتيب ----
   function renderMatch(b, idx, alreadyDone) {
     const pairs = b.pairs || [];
-    // خلط العمود الثاني
-    const right = pairs.map((p, i) => ({ txt: p.b, i })).sort(() => Math.random() - 0.5);
+    // خلط العمود الثاني؛ نمنع بقاء الترتيب كما هو (كل عنصر مقابل نظيره) عندما يوجد أكثر من زوج
+    const rightSrc = pairs.map((p, i) => ({ txt: p.b, i }));
+    let right = shuffled(rightSrc);
+    while (pairs.length > 1 && right.every((r, k) => r.i === k)) right = shuffled(rightSrc);
     let selA = null, matched = 0;
 
     const aEls = pairs.map((p, i) => el('button', { class: 'match-item', html: p.a, onclick: (e) => {
@@ -273,10 +275,13 @@ export function renderLesson(app, lessonId) {
 
   function renderOrder(b, idx, alreadyDone) {
     const items = b.items || [];
-    const shuffled = items.map((txt, i) => ({ txt, i })).sort(() => Math.random() - 0.5);
+    // خلط ترتيب العرض؛ نمنع بدء النشاط بترتيب صحيح جاهز عندما يوجد أكثر من عنصر
+    const deckSrc = items.map((txt, i) => ({ txt, i }));
+    let deck = shuffled(deckSrc);
+    while (items.length > 1 && deck.every((it, k) => it.i === k)) deck = shuffled(deckSrc);
     let expect = 0;
 
-    const els = shuffled.map(it => {
+    const els = deck.map(it => {
       const n = el('div', { class: 'order-item', tabindex: '0', role: 'button',
         onkeydown: (e) => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); n.click(); } } },
         el('div', { class: 'oi-n' }, '؟'),
