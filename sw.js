@@ -1,5 +1,5 @@
 // عامل الخدمة: كاش كامل للعمل دون اتصال
-const CACHE_VERSION = 'fm-v3';
+const CACHE_VERSION = 'fm-v4';
 
 const ASSETS = [
   './',
