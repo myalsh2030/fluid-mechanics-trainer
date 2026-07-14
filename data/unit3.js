@@ -119,13 +119,13 @@ export const UNIT3 = {
         },
         {
           t: 'example', title: 'ماسورة مياه صغيرة (مثال 3-1)',
-          given: ['قطر الماسورة d = 15 mm = 0.015 m', 'سرعة الماء v = 0.6 m/s', 'كثافة الماء ρ = 1000 kg/m³'],
+          given: ['قطر الماسورة d = <span class="ltr">15 mm</span> = <span class="ltr">0.015 m</span>', 'سرعة الماء v = <span class="ltr">0.6 m/s</span>', 'كثافة الماء ρ = <span class="ltr">1000 kg/m³</span>'],
           steps: [
-            'المساحة: A = π × 0.015<sup>2</sup> ÷ 4 ≈ 0.000177 m<sup>2</sup>',
-            'التدفق الحجمي: Q = A × v = 0.000177 × 0.6 ≈ 0.000106 m<sup>3</sup>/s',
-            'التدفق الكتلي: ṁ = ρ × Q = 1000 × 0.000106 ≈ 0.106 kg/s',
+            'المساحة: A = π × 0.015<sup>2</sup> ÷ 4 ≈ <span class="ltr">0.000177 m<sup>2</sup></span>',
+            'التدفق الحجمي: Q = A × v = 0.000177 × 0.6 ≈ <span class="ltr">0.000106 m<sup>3</sup>/s</span>',
+            'التدفق الكتلي: ṁ = ρ × Q = 1000 × 0.000106 ≈ <span class="ltr">0.106 kg/s</span>',
           ],
-          answer: 'Q ≈ 0.106 لتر/ثانية، و ṁ ≈ 0.106 kg/s — الرقمان متطابقان لأن كثافة الماء 1000 kg/m³',
+          answer: 'Q ≈ 0.106 لتر/ثانية، و ṁ ≈ <span class="ltr">0.106 kg/s</span> — الرقمان متطابقان لأن كثافة الماء <span class="ltr">1000 kg/m³</span>',
         },
         {
           t: 'tip',
@@ -161,13 +161,13 @@ export const UNIT3 = {
         },
         {
           t: 'example', title: 'أنبوب لامّ يضيق من 46 إلى 15 سم (مثال 3-2)',
-          given: ['قطر الدخول d₁ = 0.46 m', 'قطر الخروج d₂ = 0.15 m', 'معدل التدفق Q = 0.3 m³/s'],
+          given: ['قطر الدخول d₁ = <span class="ltr">0.46 m</span>', 'قطر الخروج d₂ = <span class="ltr">0.15 m</span>', 'معدل التدفق Q = <span class="ltr">0.3 m³/s</span>'],
           steps: [
-            'المساحتان: A<sub>1</sub> ≈ 0.166 m<sup>2</sup> ، A<sub>2</sub> ≈ 0.0177 m<sup>2</sup>',
-            'سرعة الدخول: v<sub>1</sub> = Q ÷ A<sub>1</sub> = 0.3 ÷ 0.166 ≈ 1.8 m/s',
-            'سرعة الخروج: v<sub>2</sub> = Q ÷ A<sub>2</sub> = 0.3 ÷ 0.0177 ≈ 17 m/s',
+            'المساحتان: A<sub>1</sub> ≈ <span class="ltr">0.166 m<sup>2</sup></span> ، A<sub>2</sub> ≈ <span class="ltr">0.0177 m<sup>2</sup></span>',
+            'سرعة الدخول: v<sub>1</sub> = Q ÷ A<sub>1</sub> = 0.3 ÷ 0.166 ≈ <span class="ltr">1.8 m/s</span>',
+            'سرعة الخروج: v<sub>2</sub> = Q ÷ A<sub>2</sub> = 0.3 ÷ 0.0177 ≈ <span class="ltr">17 m/s</span>',
           ],
-          answer: 'من 1.8 إلى 17 m/s — التدفق نفسه لكن السرعة قفزت نحو 9 أضعاف لأن المقطع ضاق!',
+          answer: 'من 1.8 إلى <span class="ltr">17 m/s</span> — التدفق نفسه لكن السرعة قفزت نحو 9 أضعاف لأن المقطع ضاق!',
         },
         {
           t: 'sim', sim: 'continuity',
@@ -211,7 +211,7 @@ export const UNIT3 = {
           html: 'السائل المتحرك يحمل «رصيدًا» من الطاقة موزعًا على ثلاث محافظ:<ul><li><span class="term">طاقة وضع <i>Potential Energy</i></span>: لأنه مرتفع.</li><li><span class="term">طاقة ضغط <i>Pressure Energy</i></span>: لأنه مضغوط.</li><li><span class="term">طاقة حركة <i>Kinetic Energy</i></span>: لأنه مندفع.</li></ul>السائل يحوّل رصيده من محفظة إلى أخرى — لكن <b>المجموع لا يتغير</b> ما لم يسرق الاحتكاك حصته.',
         },
         {
-          t: 'concept', title: 'كم في كل محفظة؟ (لكل 1 kg)', icon: '🎒',
+          t: 'concept', title: 'كم في كل محفظة؟ (لكل <span class="ltr">1 kg</span>)', icon: '🎒',
           html: 'لكل كيلوجرام واحد من السائل:<ul><li>طاقة الوضع = g × z</li><li>طاقة الضغط = P ÷ ρ</li><li>طاقة الحركة = v<sup>2</sup> ÷ 2</li></ul>وكلها بوحدة <b>J/kg</b>. وإذا قسمناها على g تحولت إلى <span class="term">سموت <i>Heads</i></span> تقاس <b>بالمتر</b> — اللغة العملية التي يفهمها كل فني: «مضخة ترفع 40 مترًا».',
         },
         {
@@ -246,7 +246,7 @@ export const UNIT3 = {
           title: 'خزان برنولي',
           desc: 'طاقة الوضع والضغط والحركة تتحول أمامك في خزان بفتحة',
           missions: [
-            { id: 'jet7', text: 'ارفع مستوى الماء حتى تتجاوز سرعة النفث 7 m/s' },
+            { id: 'jet7', text: 'ارفع مستوى الماء حتى تتجاوز سرعة النفث <span class="ltr">7 m/s</span>' },
             { id: 'pointc', text: 'اضغط نقطة النافورة C: أين ذهبت طاقة الضغط؟' },
           ],
         },
@@ -261,17 +261,17 @@ export const UNIT3 = {
         },
         {
           t: 'example', title: 'خزان علوي بفتحة جانبية',
-          given: ['خزان ماء مكشوف', 'الفتحة تحت سطح الماء بمسافة h = 5 m'],
+          given: ['خزان ماء مكشوف', 'الفتحة تحت سطح الماء بمسافة h = <span class="ltr">5 m</span>'],
           steps: [
             'عند الفتحة تتحول طاقة الوضع كلها إلى طاقة حركة',
             'v = √(2 × g × h) = √(2 × 9.81 × 5) = √98.1',
-            'v ≈ 9.9 m/s',
+            'v ≈ <span class="ltr">9.9 m/s</span>',
           ],
-          answer: 'يندفع الماء بسرعة ≈ 9.9 m/s من دون أي مضخة — هذه قوة 5 أمتار من طاقة الوضع!',
+          answer: 'يندفع الماء بسرعة ≈ <span class="ltr">9.9 m/s</span> من دون أي مضخة — هذه قوة 5 أمتار من طاقة الوضع!',
         },
         {
           t: 'concept', title: 'لغز الضغط السالب', icon: '🕳️',
-          html: 'طبّق فني برنولي على سخان ماء مرتفع فخرج الضغط <b>سالبًا: −184 kPa</b> (مثال 3-5)! ماذا يعني؟<ul><li>الحساب يصرخ: الافتراضات غير واقعية عند هذه السرعة وهذا الارتفاع.</li><li>قبل بلوغ ذلك الضغط سيغلي الماء ويتبخر — فقاعات <span class="term">تكهف <i>Cavitation</i></span>.</li><li>ضغط سالب كبير في حساباتك = إنذار تصميم، لا رقم للتنفيذ.</li></ul>',
+          html: 'طبّق فني برنولي على سخان ماء مرتفع فخرج الضغط <b>سالبًا: <span class="ltr">−184 kPa</span></b> (مثال 3-5)! ماذا يعني؟<ul><li>الحساب يصرخ: الافتراضات غير واقعية عند هذه السرعة وهذا الارتفاع.</li><li>قبل بلوغ ذلك الضغط سيغلي الماء ويتبخر — فقاعات <span class="term">تكهف <i>Cavitation</i></span>.</li><li>ضغط سالب كبير في حساباتك = إنذار تصميم، لا رقم للتنفيذ.</li></ul>',
         },
         {
           t: 'tip',
@@ -305,13 +305,13 @@ export const UNIT3 = {
         },
         {
           t: 'example', title: 'خط ماء تبريد المكثف (مثال 3-6)',
-          given: ['الضغط الكلي المقاس = 22 m', 'الضغط الاستاتيكي المقاس = 21.6 m'],
+          given: ['الضغط الكلي المقاس = <span class="ltr">22 m</span>', 'الضغط الاستاتيكي المقاس = <span class="ltr">21.6 m</span>'],
           steps: [
-            'ضغط السرعة: h<sub>v</sub> = 22 − 21.6 = 0.4 m',
+            'ضغط السرعة: h<sub>v</sub> = 22 − 21.6 = <span class="ltr">0.4 m</span>',
             'v = √(2 × 9.81 × 0.4) = √7.85',
-            'v ≈ 2.8 m/s',
+            'v ≈ <span class="ltr">2.8 m/s</span>',
           ],
-          answer: 'سرعة الماء في الأنبوب ≈ 2.8 m/s — عرفناها من قراءتي ضغط فقط!',
+          answer: 'سرعة الماء في الأنبوب ≈ <span class="ltr">2.8 m/s</span> — عرفناها من قراءتي ضغط فقط!',
         },
         {
           t: 'concept', title: 'أنبوب بيتوت: صنّارة السرعة', icon: '✈️',
@@ -341,7 +341,7 @@ export const UNIT3 = {
           title: 'فنشوري وبيتوت',
           desc: 'قِس التدفق والسرعة كما تفعل أجهزة الورشة الحقيقية',
           missions: [
-            { id: 'dm100', text: 'زد التدفق حتى يتجاوز فرق المانوميتر 100 mm' },
+            { id: 'dm100', text: 'زد التدفق حتى يتجاوز فرق المانوميتر <span class="ltr">100 mm</span>' },
             { id: 'pitot', text: 'بدّل إلى أنبوب بيتوت وقس سرعة التيار' },
           ],
         },
@@ -380,14 +380,14 @@ export const U3_QUIZZES = {
       },
       {
         t: 'mc', unit: 'u3', concept: 'flow-rate',
-        q: 'ماسورة مساحة مقطعها 0.02 m² يجري فيها ماء بسرعة 3 m/s. كم معدل التدفق الحجمي؟',
-        opts: ['0.06 m³/s', '0.6 m³/s', '6 m³/s', '0.006 m³/s'],
+        q: 'ماسورة مساحة مقطعها <span class="ltr">0.02 m²</span> يجري فيها ماء بسرعة <span class="ltr">3 m/s</span>. كم معدل التدفق الحجمي؟',
+        opts: ['<span class="ltr">0.06 m³/s</span>', '<span class="ltr">0.6 m³/s</span>', '<span class="ltr">6 m³/s</span>', '<span class="ltr">0.006 m³/s</span>'],
         correct: 0,
-        why: 'Q = A × v = 0.02 × 3 = 0.06 m³/s. معادلة واحدة تحل نصف مسائل التدفق!',
+        why: 'Q = A × v = 0.02 × 3 = <span class="ltr">0.06 m³/s</span>. معادلة واحدة تحل نصف مسائل التدفق!',
       },
       {
         t: 'mc', unit: 'u3', concept: 'continuity',
-        q: 'انتقل الماء من ماسورة قطرها 200 mm إلى ماسورة قطرها 100 mm. السرعة في الماسورة الأصغر:',
+        q: 'انتقل الماء من ماسورة قطرها <span class="ltr">200 mm</span> إلى ماسورة قطرها <span class="ltr">100 mm</span>. السرعة في الماسورة الأصغر:',
         opts: ['تصبح 4 أضعاف', 'تصبح الضعف', 'تنخفض إلى النصف', 'لا تتغير'],
         correct: 0,
         why: 'نصف القطر يعني ربع المساحة (المساحة تتناسب مع مربع القطر)، والتدفق ثابت، فالسرعة تتضاعف 4 مرات.',
@@ -433,10 +433,10 @@ export const U3_QUIZZES = {
       },
       {
         t: 'mc', unit: 'u3', concept: 'flow-rate',
-        q: 'مضخة تدفع 0.01 m³/s من الماء (ρ = 1000 kg/m³). كم معدل التدفق الكتلي؟',
-        opts: ['10 kg/s تقريبًا', '0.01 kg/s', '100 kg/s', '1 kg/s'],
+        q: 'مضخة تدفع <span class="ltr">0.01 m³/s</span> من الماء (ρ = <span class="ltr">1000 kg/m³</span>). كم معدل التدفق الكتلي؟',
+        opts: ['<span class="ltr">10 kg/s</span> تقريبًا', '<span class="ltr">0.01 kg/s</span>', '<span class="ltr">100 kg/s</span>', '<span class="ltr">1 kg/s</span>'],
         correct: 0,
-        why: 'ṁ = ρ × Q = 1000 × 0.01 = 10 kg/s. عشرة كيلوجرامات من الماء تعبر كل ثانية.',
+        why: 'ṁ = ρ × Q = 1000 × 0.01 = <span class="ltr">10 kg/s</span>. عشرة كيلوجرامات من الماء تعبر كل ثانية.',
       },
       {
         t: 'mc', unit: 'u3', concept: 'flow-rate',
@@ -460,17 +460,17 @@ export const U3_QUIZZES = {
       },
       {
         t: 'mc', unit: 'u3', concept: 'continuity',
-        q: 'دخل الماء أنبوبًا لامًّا بسرعة 1.8 m/s، ومساحة الخروج تقارب عُشر مساحة الدخول. سرعة الخروج تقارب:',
-        opts: ['18 m/s', '0.18 m/s', '1.8 m/s', '180 m/s'],
+        q: 'دخل الماء أنبوبًا لامًّا بسرعة <span class="ltr">1.8 m/s</span>، ومساحة الخروج تقارب عُشر مساحة الدخول. سرعة الخروج تقارب:',
+        opts: ['<span class="ltr">18 m/s</span>', '<span class="ltr">0.18 m/s</span>', '<span class="ltr">1.8 m/s</span>', '<span class="ltr">180 m/s</span>'],
         correct: 0,
-        why: 'v₂ = v₁ × (A₁ ÷ A₂) = 1.8 × 10 = 18 m/s تقريبًا — كما في مثال الأنبوب اللامّ في الكتاب.',
+        why: 'v₂ = v₁ × (A₁ ÷ A₂) = 1.8 × 10 = <span class="ltr">18 m/s</span> تقريبًا — كما في مثال الأنبوب اللامّ في الكتاب.',
       },
       {
         t: 'mc', unit: 'u3', concept: 'continuity',
-        q: 'خط رئيسي يتفرع إلى فرعين متماثلين. إذا كان التدفق الكتلي الداخل 14 kg/s فكم يمر في كل فرع؟',
-        opts: ['7 kg/s', '14 kg/s', '28 kg/s', '3.5 kg/s'],
+        q: 'خط رئيسي يتفرع إلى فرعين متماثلين. إذا كان التدفق الكتلي الداخل <span class="ltr">14 kg/s</span> فكم يمر في كل فرع؟',
+        opts: ['<span class="ltr">7 kg/s</span>', '<span class="ltr">14 kg/s</span>', '<span class="ltr">28 kg/s</span>', '<span class="ltr">3.5 kg/s</span>'],
         correct: 0,
-        why: 'الداخل = مجموع الخارج، والفرعان متماثلان فيقتسمان التدفق مناصفة: 14 ÷ 2 = 7 kg/s.',
+        why: 'الداخل = مجموع الخارج، والفرعان متماثلان فيقتسمان التدفق مناصفة: 14 ÷ 2 = <span class="ltr">7 kg/s</span>.',
       },
       {
         t: 'tf', unit: 'u3', concept: 'continuity',
@@ -505,10 +505,10 @@ export const U3_QUIZZES = {
       },
       {
         t: 'mc', unit: 'u3', concept: 'bernoulli',
-        q: 'خزان مكشوف ارتفاع الماء فوق فتحته الجانبية 5 m تقريبًا. سرعة خروج الماء تقارب:',
-        opts: ['10 m/s', '5 m/s', '50 m/s', '1 m/s'],
+        q: 'خزان مكشوف ارتفاع الماء فوق فتحته الجانبية <span class="ltr">5 m</span> تقريبًا. سرعة خروج الماء تقارب:',
+        opts: ['<span class="ltr">10 m/s</span>', '<span class="ltr">5 m/s</span>', '<span class="ltr">50 m/s</span>', '<span class="ltr">1 m/s</span>'],
         correct: 0,
-        why: 'v = √(2gh) = √(2 × 9.81 × 5) ≈ 9.9 m/s أي نحو 10 m/s — طاقة الوضع تحولت كلها إلى حركة.',
+        why: 'v = √(2gh) = √(2 × 9.81 × 5) ≈ <span class="ltr">9.9 m/s</span> أي نحو <span class="ltr">10 m/s</span> — طاقة الوضع تحولت كلها إلى حركة.',
       },
       {
         t: 'tf', unit: 'u3', concept: 'bernoulli',
@@ -524,10 +524,10 @@ export const U3_QUIZZES = {
     questions: [
       {
         t: 'mc', unit: 'u3', concept: 'total-pressure',
-        q: 'قست في خط ماء المكثف: الضغط الكلي 22 m والاستاتيكي 21.6 m. كم ضغط السرعة؟',
-        opts: ['0.4 m', '43.6 m', '21.6 m', '22 m'],
+        q: 'قست في خط ماء المكثف: الضغط الكلي <span class="ltr">22 m</span> والاستاتيكي <span class="ltr">21.6 m</span>. كم ضغط السرعة؟',
+        opts: ['<span class="ltr">0.4 m</span>', '<span class="ltr">43.6 m</span>', '<span class="ltr">21.6 m</span>', '<span class="ltr">22 m</span>'],
         correct: 0,
-        why: 'ضغط السرعة = الكلي − الاستاتيكي = 22 − 21.6 = 0.4 m، ومنه v = √(2×9.81×0.4) ≈ 2.8 m/s.',
+        why: 'ضغط السرعة = الكلي − الاستاتيكي = 22 − 21.6 = <span class="ltr">0.4 m</span>، ومنه v = √(2×9.81×0.4) ≈ <span class="ltr">2.8 m/s</span>.',
       },
       {
         t: 'tf', unit: 'u3', concept: 'total-pressure',

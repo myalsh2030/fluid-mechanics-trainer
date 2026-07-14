@@ -4,8 +4,17 @@ import { getState, isLessonDone } from '../store.js';
 import { unitStatus, isLessonUnlocked, currentLesson, lessonStars, overallDiagLevel } from '../personalize.js';
 import { COURSE } from '../../data/course.js';
 
-const ROW_H = 96;          // ارتفاع صف المرحلة بالبكسل
+const ROW_H = 100;         // ارتفاع صف المرحلة بالبكسل
+const SEC_PAD = 48;        // متنفس أسفل المقطع كي لا يتداخل عنوان آخر عقدة مع اللافتة التالية
 const X_RIGHT = 72, X_LEFT = 28; // مواضع التعرج (% من العرض)
+
+// زخارف خفيفة لكل منطقة تُوضع على الجهة الخالية من العقدة
+const ZONE_DECO = {
+  u1: ['💧', '🫧', '🧪'],
+  u2: ['🌊', '⚓', '🤿'],
+  u3: ['🌀', '💨', '⛲'],
+  u4: ['⚙️', '🔥', '🏭'],
+};
 
 export function renderHome(app) {
   const s = getState();
@@ -45,8 +54,8 @@ export function renderHome(app) {
 
     // مقطع المسار
     const n = u.lessons.length;
-    const H = n * ROW_H;
-    const sec = el('div', { class: 'jmap-sec', style: `height:${H}px` });
+    const H = n * ROW_H + SEC_PAD;
+    const sec = el('div', { class: 'jmap-sec', style: `height:${H}px; --zc:${u.color}` });
 
     // نقاط المراكز (٪ أفقي، بكسل رأسي)
     const pts = u.lessons.map((l, i) => ({
@@ -54,20 +63,34 @@ export function renderHome(app) {
       y: i * ROW_H + ROW_H / 2,
     }));
 
-    // مسار متعرج خلف العقد — non-scaling-stroke يحفظ سماكة الخط مع التمدد
+    // مسار متعرج خلف العقد: توهج عريض + خط أساسي — non-scaling-stroke يحفظ السماكة
     let segs = '';
     for (let i = 0; i < n - 1; i++) {
       const a = pts[i], b = pts[i + 1];
       const my = (a.y + b.y) / 2;
+      const d = `M ${a.x} ${a.y} C ${a.x} ${my}, ${b.x} ${my}, ${b.x} ${b.y}`;
       const solid = isLessonDone(u.lessons[i].id);
-      segs += `<path d="M ${a.x} ${a.y} C ${a.x} ${my}, ${b.x} ${my}, ${b.x} ${b.y}"
-        fill="none" stroke="${u.color}" stroke-width="4" vector-effect="non-scaling-stroke"
-        stroke-linecap="round" ${solid ? 'opacity="0.85"' : 'opacity="0.28" stroke-dasharray="2 7"'} />`;
+      segs += `<path d="${d}" fill="none" stroke="${u.color}" stroke-width="11"
+        vector-effect="non-scaling-stroke" stroke-linecap="round" opacity="${solid ? 0.16 : 0.06}" />`;
+      segs += `<path d="${d}" fill="none" stroke="${u.color}" stroke-width="4.5"
+        vector-effect="non-scaling-stroke" stroke-linecap="round"
+        ${solid ? 'opacity="0.9"' : 'opacity="0.3" stroke-dasharray="2 7"'} />`;
     }
     sec.append(el('div', {
       class: 'jmap-svg',
       html: `<svg viewBox="0 0 100 ${H}" preserveAspectRatio="none" aria-hidden="true">${segs}</svg>`,
     }));
+
+    // زخارف المنطقة على الجهة المقابلة للعقد
+    const deco = ZONE_DECO[u.id] || [];
+    deco.forEach((d, di) => {
+      if (di >= n) return;
+      const oppositeX = pts[di].x === X_RIGHT ? 14 : 80;
+      sec.append(el('span', {
+        class: 'jmap-deco', 'aria-hidden': 'true',
+        style: `right:${100 - oppositeX}%; top:${pts[di].y + 8}px`,
+      }, d));
+    });
 
     // العقد
     u.lessons.forEach((l, i) => {
@@ -93,7 +116,9 @@ export function renderHome(app) {
         isCur ? el('span', { class: 'jn-me' }, s.profile.avatar) : '',
         el('span', { class: 'jn-circle' }, unlocked ? String(num) : '🔒'),
         el('span', { class: 'jn-stars' },
-          done ? '★★★'.slice(0, stars) || '✓' : ''),
+          done
+            ? [el('span', {}, '★'.repeat(stars) || '✓'), stars < 3 ? el('span', { class: 'st-off' }, '★'.repeat(3 - stars)) : '']
+            : ''),
         el('span', { class: 'jn-title' }, l.title),
       );
       sec.append(node);
