@@ -59,7 +59,7 @@ const SVG_BERNOULLI_TANK =
 export const UNIT3 = {
   id: 'u3',
   title: 'ديناميكا الموائع',
-  icon: '🌀',
+  icon: 'waves',
   color: '#34d399',
   tagline: 'حين يتحرك المائع: التدفق والطاقة وأجهزة القياس',
   lessons: [

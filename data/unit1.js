@@ -4,7 +4,7 @@
 export const UNIT1 = {
   id: 'u1',
   title: 'خواص الموائع',
-  icon: '💧',
+  icon: 'droplet',
   color: '#22d3ee',
   tagline: 'ما الذي يجعل الماء ماءً والعسل عسلًا؟',
   lessons: [

@@ -1,5 +1,5 @@
 // الشاشة الرئيسية: خريطة الرحلة
-import { el } from '../ui.js';
+import { el, icon } from '../ui.js';
 import { getState } from '../store.js';
 import { unitProgress, isLessonDone } from '../store.js';
 import { unitStatus, unitStatusChip, recommendedUnit, lessonPriority, lessonPriorityChip } from '../personalize.js';
@@ -21,7 +21,7 @@ export function renderHome(app) {
       ? el('div', { style: 'margin-top:12px' },
           el('p', { class: 'plan-note' }, '🧭 لم تحدد موقعك بعد — اختبار سريع يرسم خطتك الشخصية:'),
           el('a', { class: 'btn amber sm', href: '#/diag', style: 'margin-top:8px' }, 'ابدأ الاختبار التشخيصي'))
-      : el('p', { class: 'plan-note' }, `⭐ خطتك تقترح البدء بـ: ${rec.icon} ${rec.title}`),
+      : el('p', { class: 'plan-note' }, '⭐ خطتك تقترح البدء بـ: ', icon(rec.icon, 'sm'), ' ' + rec.title),
   );
   app.append(hero);
 
@@ -33,7 +33,7 @@ export function renderHome(app) {
     const chip = unitStatusChip(status);
 
     const head = el('div', { class: 'unit-head' },
-      el('div', { class: 'u-ic' }, u.icon),
+      el('div', { class: 'u-ic' }, icon(u.icon, 'lg')),
       el('div', { class: 'u-t' },
         el('div', { class: 'u-title' }, u.title),
         el('div', { class: 'u-sub' }, `${prog.done}/${prog.total} دروس`, chip ? ' · ' : '', chip ? el('span', { class: `chip ${chip.cls}` }, chip.txt) : ''),
@@ -54,7 +54,7 @@ export function renderHome(app) {
         class: `lesson-node ${done ? 'done' : ''} ${isNext ? 'recommended' : ''}`,
         href: `#/lesson/${l.id}`,
       },
-        el('div', { class: 'ln-status' }, done ? '✅' : (isNext ? '▶️' : '📘')),
+        el('div', { class: 'ln-status' }, done ? icon('circle-check') : (isNext ? icon('play') : icon('book'))),
         el('div', { class: 'ln-body' },
           el('div', { class: 'ln-title' }, l.title),
           el('div', { class: 'ln-meta' },

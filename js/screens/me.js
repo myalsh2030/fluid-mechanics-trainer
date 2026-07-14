@@ -1,6 +1,6 @@
 // الملف الشخصي: إحصاءات، أوسمة، إعدادات
 import { el, modal } from '../ui.js';
-import { getState, resetAll, isLessonDone } from '../store.js';
+import { getState, resetAll, isLessonDone, save, emit } from '../store.js';
 import { BADGES, LEVELS, levelInfo } from '../game.js';
 import { COURSE } from '../../data/course.js';
 
@@ -40,6 +40,7 @@ export function renderMe(app) {
 
     el('div', { class: 'card', style: 'margin-top:18px' },
       el('h3', {}, '⚙️ خيارات'),
+      themeRow(),
       !s.diag ? el('a', { class: 'btn amber sm', href: '#/diag', style: 'margin:6px 0; display:inline-flex' }, '🧭 خُض الاختبار التشخيصي') : '',
       el('div', { class: 'small muted', style: 'margin: 8px 0' },
         'كل بياناتك محفوظة على هذا الجهاز فقط. لا يُرسل أي شيء للإنترنت.'),
@@ -49,6 +50,30 @@ export function renderMe(app) {
 
   function stat(v, l) {
     return el('div', { class: 'stat' }, el('div', { class: 's-v' }, String(v)), el('div', { class: 's-l' }, l));
+  }
+
+  // مبدّل المظهر: داكن / فاتح — يُحفظ محليًا فورًا
+  function themeRow() {
+    const cur = () => getState().theme === 'light' ? 'light' : 'dark';
+    const btnDark = el('button', { class: 'btn sm', onclick: () => setTheme('dark') }, '🌙 داكن');
+    const btnLight = el('button', { class: 'btn sm', onclick: () => setTheme('light') }, '☀️ فاتح');
+    function style() {
+      const c = cur();
+      btnDark.className = 'btn sm' + (c === 'dark' ? '' : ' secondary');
+      btnLight.className = 'btn sm' + (c === 'light' ? '' : ' secondary');
+    }
+    function setTheme(t) {
+      const st = getState();
+      st.theme = t;
+      save();
+      emit('theme', t);
+      style();
+    }
+    style();
+    return el('div', { style: 'display:flex; align-items:center; gap:10px; margin:6px 0 12px; flex-wrap:wrap' },
+      el('span', { class: 'small', style: 'font-weight:700; color:var(--c-text2)' }, 'المظهر:'),
+      btnDark, btnLight,
+    );
   }
 
   function confirmReset() {

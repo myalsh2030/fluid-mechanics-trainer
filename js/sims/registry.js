@@ -1,7 +1,7 @@
 // سجل المحاكيات: التعريف + المهام + التحميل الكسول
 export const SIMS = [
   {
-    id: 'density', icon: '🧪', unit: 'u1',
+    id: 'density', icon: 'test-tube', unit: 'u1',
     title: 'مختبر الكثافة',
     desc: 'خزان وسوائل حقيقية: احسب ρ و γ و SG بنفسك',
     missions: [
@@ -10,7 +10,7 @@ export const SIMS = [
     ],
   },
   {
-    id: 'viscosity', icon: '🍯', unit: 'u1',
+    id: 'viscosity', icon: 'droplets', unit: 'u1',
     title: 'سباق اللزوجة',
     desc: 'كرات تسقط في ماء وزيت وعسل — من يصل أولًا؟',
     missions: [
@@ -19,7 +19,7 @@ export const SIMS = [
     ],
   },
   {
-    id: 'boiling', icon: '♨️', unit: 'u1',
+    id: 'boiling', icon: 'flame', unit: 'u1',
     title: 'الغليان وضغط البخار',
     desc: 'لماذا يغلي الماء بدون تسخين؟ سرّ التكهف يبدأ هنا',
     missions: [
@@ -28,7 +28,7 @@ export const SIMS = [
     ],
   },
   {
-    id: 'pressure', icon: '🤿', unit: 'u2',
+    id: 'pressure', icon: 'gauge', unit: 'u2',
     title: 'الغوّاص والضغط',
     desc: 'انزل في الأعماق وشاهد P = ρgh أمام عينيك',
     missions: [
@@ -37,7 +37,7 @@ export const SIMS = [
     ],
   },
   {
-    id: 'hydraulic', icon: '🏗️', unit: 'u2',
+    id: 'hydraulic', icon: 'piston', unit: 'u2',
     title: 'المكبس الهيدروليكي',
     desc: 'ارفع سيارة بيد واحدة — قاعدة باسكال في العمل',
     missions: [
@@ -46,7 +46,7 @@ export const SIMS = [
     ],
   },
   {
-    id: 'buoyancy', icon: '🚢', unit: 'u2',
+    id: 'buoyancy', icon: 'ship', unit: 'u2',
     title: 'مختبر الطفو',
     desc: 'يطفو، يتعلق، أم يغوص؟ قاعدة أرشميدس بين يديك',
     missions: [
@@ -55,7 +55,7 @@ export const SIMS = [
     ],
   },
   {
-    id: 'manometer', icon: '🌡️', unit: 'u2',
+    id: 'manometer', icon: 'manometer', unit: 'u2',
     title: 'المانوميتر U',
     desc: 'اقرأ الضغط من فرق عمودَي الزئبق كما في الورشة',
     missions: [
@@ -64,7 +64,7 @@ export const SIMS = [
     ],
   },
   {
-    id: 'continuity', icon: '🚿', unit: 'u3',
+    id: 'continuity', icon: 'pipe', unit: 'u3',
     title: 'الأنبوب اللامّ',
     desc: 'ضيّق الخرطوم بإصبعك وشاهد السرعة تنطلق: A×v ثابت',
     missions: [
@@ -73,7 +73,7 @@ export const SIMS = [
     ],
   },
   {
-    id: 'bernoulli', icon: '⚡', unit: 'u3',
+    id: 'bernoulli', icon: 'zap', unit: 'u3',
     title: 'خزان برنولي',
     desc: 'طاقة الوضع والضغط والحركة تتحول أمامك في خزان بفتحة',
     missions: [
@@ -82,7 +82,7 @@ export const SIMS = [
     ],
   },
   {
-    id: 'venturi', icon: '⏳', unit: 'u3',
+    id: 'venturi', icon: 'hourglass', unit: 'u3',
     title: 'فنشوري وبيتوت',
     desc: 'قِس التدفق والسرعة كما تفعل أجهزة الورشة الحقيقية',
     missions: [
@@ -91,7 +91,7 @@ export const SIMS = [
     ],
   },
   {
-    id: 'reynolds', icon: '🌀', unit: 'u4',
+    id: 'reynolds', icon: 'tornado', unit: 'u4',
     title: 'آلة رينولدز',
     desc: 'رقائقي أم مضطرب؟ أربعة منزلقات تتحكم في مصير الجريان',
     missions: [
@@ -101,7 +101,7 @@ export const SIMS = [
     ],
   },
   {
-    id: 'friction', icon: '📉', unit: 'u4',
+    id: 'friction', icon: 'trending-down', unit: 'u4',
     title: 'مستكشف فقد الضغط',
     desc: 'الطول والقطر والسرعة والصدأ: من يسرق ضغط مضختك؟',
     missions: [
@@ -111,7 +111,7 @@ export const SIMS = [
     ],
   },
   {
-    id: 'fan', icon: '🌬️', unit: 'u4',
+    id: 'fan', icon: 'fan', unit: 'u4',
     title: 'مجرى الهواء والمروحة',
     desc: 'صمّم مجرى تهوية واختر قدرة المروحة P = Δp × Q',
     missions: [
@@ -120,7 +120,7 @@ export const SIMS = [
     ],
   },
   {
-    id: 'pump', icon: '⚙️', unit: 'u4',
+    id: 'pump', icon: 'pump', unit: 'u4',
     title: 'منظومة الضخ',
     desc: 'شغّل مضخة حقيقية: نقطة التشغيل، الكفاءة، وخطر التكهف',
     missions: [

@@ -1,11 +1,12 @@
 // عامل الخدمة: كاش كامل للعمل دون اتصال
-const CACHE_VERSION = 'fm-v4';
+const CACHE_VERSION = 'fm-v5';
 
 const ASSETS = [
   './',
   './index.html',
   './manifest.webmanifest',
   './css/main.css',
+  './icons.svg',
   './fonts/cairo-arabic.woff2',
   './fonts/cairo-latin.woff2',
   './icons/icon.svg',

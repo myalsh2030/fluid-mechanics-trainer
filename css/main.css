@@ -40,6 +40,45 @@
   --top-h: 58px;
 }
 
+/* ---------- الثيم الفاتح (data-theme="light" على html) ---------- */
+:root[data-theme="light"] {
+  --c-bg: #eef2f7;
+  --c-bg2: #e2e8f0;
+  --c-surface: #ffffff;
+  --c-surface2: #f1f5f9;
+  --c-border: rgba(15,23,42,.10);
+  --c-border2: rgba(15,23,42,.18);
+  --c-water: #0284c7;
+  --c-water2: #0e7490;
+  --c-amber: #b45309;
+  --c-ok: #047857;
+  --c-bad: #dc2626;
+  --c-badge: #7c3aed;
+  --c-text: #0f172a;
+  --c-text2: #475569;
+  --shadow: 0 8px 24px rgba(15,23,42,.10);
+}
+:root[data-theme="light"] body {
+  background-image: radial-gradient(1200px 500px at 50% -180px, rgba(2,132,199,.10), transparent 70%);
+}
+:root[data-theme="light"] #topbar { background: rgba(255,255,255,.88); }
+:root[data-theme="light"] #bottomnav { background: rgba(255,255,255,.92); }
+:root[data-theme="light"] .pbar,
+:root[data-theme="light"] .tb-levelbar { background: rgba(15,23,42,.08); }
+:root[data-theme="light"] .oi-n { background: rgba(15,23,42,.07); }
+:root[data-theme="light"] .blk-formula .f-expr { background: rgba(15,23,42,.06); }
+:root[data-theme="light"] .hero {
+  background: linear-gradient(160deg, rgba(2,132,199,.10), rgba(8,145,178,.03) 60%);
+  border-color: rgba(2,132,199,.25);
+}
+/* لوحات المحاكاة والرسوم التوضيحية تبقى داكنة دائمًا — كشاشات أجهزة القياس */
+:root[data-theme="light"] .sim-stage { background: #0a1526; }
+:root[data-theme="light"] .blk-figure {
+  background: #141e33;
+  border-color: rgba(255,255,255,.10);
+}
+:root[data-theme="light"] .blk-figure .fig-cap { color: #94a3b8; }
+
 * { box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
 html { scroll-behavior: smooth; }
 body {
@@ -132,6 +171,20 @@ button { font-family: inherit; }
 
 h1.page-title { font-size: 22px; font-weight: 800; margin: 6px 0 4px; }
 .page-sub { color: var(--c-text2); font-size: 14px; margin: 0 0 18px; }
+
+/* ---------- أيقونات SVG (سبرايت icons.svg) ---------- */
+.icon {
+  width: 22px; height: 22px;
+  display: inline-block; vertical-align: middle;
+  flex: none; color: inherit;
+  stroke-width: 2;
+}
+.icon.sm { width: 17px; height: 17px; }
+.icon.lg { width: 28px; height: 28px; }
+.icon.xl { width: 34px; height: 34px; }
+.bn-ic svg { width: 23px; height: 23px; }
+#bottomnav a .bn-ic { filter: none; opacity: .65; transition: opacity .2s, transform .2s; }
+#bottomnav a.active .bn-ic { opacity: 1; transform: translateY(-2px); }
 
 .term i {
   font-style: normal; direction: ltr; unicode-bidi: isolate;

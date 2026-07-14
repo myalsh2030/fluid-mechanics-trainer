@@ -1,5 +1,5 @@
 // مشغّل الدرس: بطاقات متتابعة + أنشطة تفاعلية + نقطة تفتيش
-import { el, toast, confetti, shuffled } from '../ui.js';
+import { el, toast, confetti, shuffled, icon } from '../ui.js';
 import { getState, save, lessonState } from '../store.js';
 import { award, grantBadge, XP, checkBadges } from '../game.js';
 import { runQuiz, resultCard } from '../quiz.js';
@@ -47,7 +47,7 @@ export function renderLesson(app, lessonId) {
     ),
     el('div', { style: 'margin:0 2px 12px' },
       el('div', { style: 'font-weight:800; font-size:17px' }, lesson.title),
-      el('div', { class: 'small muted' }, `${unit.icon} ${unit.title}`),
+      el('div', { class: 'small muted' }, icon(unit.icon, 'sm'), ' ' + unit.title),
     ),
   );
 

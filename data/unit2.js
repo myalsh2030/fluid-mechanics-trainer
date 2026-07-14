@@ -4,7 +4,7 @@
 export const UNIT2 = {
   id: 'u2',
   title: 'استاتيكا الموائع',
-  icon: '⚖️',
+  icon: 'scale',
   color: '#38bdf8',
   tagline: 'الضغط والطفو: قوى صامتة تحمل السفن وترفع السيارات',
   lessons: [

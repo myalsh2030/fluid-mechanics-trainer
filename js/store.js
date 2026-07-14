@@ -12,6 +12,7 @@ const DEFAULTS = {
   badges: [],               // ['first-steps', ...]
   streak: { last: '', count: 0 },
   glossaryVisited: false,
+  theme: 'dark',            // 'dark' | 'light'
 };
 
 let state = load();
@@ -31,6 +32,7 @@ function load() {
       } else if (Array.isArray(def) && !Array.isArray(v)) merged[k] = [];
       else if (typeof def === 'number' && typeof v !== 'number') merged[k] = def;
       else if (typeof def === 'boolean' && typeof v !== 'boolean') merged[k] = def;
+      else if (typeof def === 'string' && typeof v !== 'string') merged[k] = def;
     }
     if (merged.profile !== null && (typeof merged.profile !== 'object' || !merged.profile?.name)) merged.profile = null;
     if (merged.diag !== null && typeof merged.diag !== 'object') merged.diag = null;

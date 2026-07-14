@@ -1,5 +1,5 @@
 // شاشة الوحدة: الاختبار القبلي + الدروس مرتبة حسب الخطة
-import { el } from '../ui.js';
+import { el, icon } from '../ui.js';
 import { getState, save, isLessonDone } from '../store.js';
 import { runQuiz, resultCard } from '../quiz.js';
 import { award, XP } from '../game.js';
@@ -18,7 +18,7 @@ export function renderUnit(app, unitId) {
     el('div', { class: 'lp-head' },
       el('button', { class: 'lp-close', onclick: () => { location.hash = '#/'; } }, '→'),
       el('div', { style: 'flex:1' },
-        el('div', { style: 'font-weight:800; font-size:17px' }, `${u.icon} ${u.title}`),
+        el('div', { style: 'font-weight:800; font-size:17px' }, icon(u.icon, 'sm'), ' ' + u.title),
         el('div', { class: 'small muted' }, u.tagline || ''),
       ),
     )
@@ -58,7 +58,7 @@ export function renderUnit(app, unitId) {
       const p = lessonPriority(unitId, l);
       const pchip = lessonPriorityChip(p);
       body.append(el('a', { class: `lesson-node ${done ? 'done' : ''}`, href: `#/lesson/${l.id}` },
-        el('div', { class: 'ln-status' }, done ? '✅' : '📘'),
+        el('div', { class: 'ln-status' }, done ? icon('circle-check') : icon('book')),
         el('div', { class: 'ln-body' },
           el('div', { class: 'ln-title' }, l.title),
           el('div', { class: 'ln-meta' },

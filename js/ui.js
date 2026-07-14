@@ -82,3 +82,10 @@ export function shuffled(arr) {
   }
   return a;
 }
+
+// أيقونة من السبرايت icons.svg
+export function icon(id, cls = '') {
+  const t = document.createElement('template');
+  t.innerHTML = `<svg class="icon${cls ? ' ' + cls : ''}" aria-hidden="true" focusable="false"><use href="icons.svg#${id}"></use></svg>`;
+  return t.content.firstChild;
+}

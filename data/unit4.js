@@ -4,7 +4,7 @@
 export const UNIT4 = {
   id: 'u4',
   title: 'الأنابيب ومجاري الهواء والمضخات',
-  icon: '⚙️',
+  icon: 'pump',
   color: '#fbbf24',
   tagline: 'من يسرق ضغط مضختك؟ رحلة المائع عبر الأنابيب حتى المروحة',
   lessons: [

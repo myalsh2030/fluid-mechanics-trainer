@@ -1,5 +1,5 @@
 // الاختبار التشخيصي الشامل → الخطة الشخصية
-import { el } from '../ui.js';
+import { el, icon } from '../ui.js';
 import { getState, save } from '../store.js';
 import { runQuiz, resultCard } from '../quiz.js';
 import { award, grantBadge, XP } from '../game.js';
@@ -68,7 +68,7 @@ export function renderPlan(app) {
     const pct = us.total ? Math.round(us.ok / us.total * 100) : 0;
     const level = pct >= 80 ? ['✅ نقطة قوة', 'var(--c-ok)'] : pct >= 50 ? ['📌 جيد — يحتاج صقلًا', 'var(--c-water)'] : ['🔥 أولوية قصوى لك', '#fb923c'];
     return el('div', { class: 'plan-unit' },
-      el('div', { class: 'pu-ic' }, u.icon),
+      el('div', { class: 'pu-ic' }, icon(u.icon, 'lg')),
       el('div', { class: 'pu-b' },
         el('div', { class: 'pu-t' }, u.title),
         el('div', { class: 'small', style: `color:${level[1]}; font-weight:700` }, level[0]),
@@ -86,7 +86,7 @@ export function renderPlan(app) {
       el('div', { class: 'card' }, rows),
       el('div', { class: 'card', style: 'border-color: rgba(251,191,36,.4)' },
         el('div', { style: 'font-weight:800; color:var(--c-amber)' }, '⭐ نقطة الانطلاق المقترحة'),
-        el('div', {}, `${rec.icon} ${rec.title}`),
+        el('div', {}, icon(rec.icon, 'sm'), ' ' + rec.title),
       ),
       el('button', { class: 'btn wide', onclick: () => { location.hash = '#/'; } }, 'إلى خريطة الرحلة 🚀'),
     )

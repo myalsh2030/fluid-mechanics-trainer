@@ -62,15 +62,25 @@ function updateTopbar() {
   document.getElementById('tb-levelfill').style.width = li.pct + '%';
 }
 
+// ---- الثيم ----
+export function applyTheme(theme) {
+  const t = theme === 'light' ? 'light' : 'dark';
+  document.documentElement.dataset.theme = t;
+  const meta = document.querySelector('meta[name="theme-color"]');
+  if (meta) meta.setAttribute('content', t === 'light' ? '#eef2f7' : '#0b1220');
+}
+
 // ---- الإقلاع ----
 window.addEventListener('hashchange', route);
 on('xp', updateTopbar);
-on('reset', () => { location.hash = '#/welcome'; route(); updateTopbar(); });
+on('theme', applyTheme);
+on('reset', () => { applyTheme('dark'); location.hash = '#/welcome'; route(); updateTopbar(); });
 
 if ('serviceWorker' in navigator && location.protocol !== 'file:') {
   navigator.serviceWorker.register('sw.js').catch(() => {});
 }
 
+applyTheme(getState().theme);
 touchStreak();
 updateTopbar();
 route();
