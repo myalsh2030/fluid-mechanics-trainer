@@ -78,6 +78,13 @@ on('reset', () => { applyTheme('dark'); location.hash = '#/welcome'; route(); up
 
 if ('serviceWorker' in navigator && location.protocol !== 'file:') {
   navigator.serviceWorker.register('sw.js').catch(() => {});
+  // عند تفعيل نسخة جديدة: إعادة تحميل واحدة كي تعمل كل الملفات من نفس النسخة
+  let reloaded = false;
+  navigator.serviceWorker.addEventListener('controllerchange', () => {
+    if (reloaded) return;
+    reloaded = true;
+    if (navigator.serviceWorker.controller) location.reload();
+  });
 }
 
 applyTheme(getState().theme);

@@ -4,6 +4,7 @@ import { getState, save, lessonState } from '../store.js';
 import { award, grantBadge, XP, checkBadges } from '../game.js';
 import { runQuiz, resultCard } from '../quiz.js';
 import { hostSim } from '../simhost.js';
+import { isLessonUnlocked } from '../personalize.js';
 import { COURSE } from '../../data/course.js';
 import { QUIZZES } from '../../data/quizzes.js';
 
@@ -14,6 +15,12 @@ export function renderLesson(app, lessonId) {
     if (i >= 0) { unit = u; lesson = u.lessons[i]; lessonIdx = i; break; }
   }
   if (!lesson) { location.hash = '#/'; return; }
+  // المراحل تسلسلية: لا دخول لمرحلة قبل إنجاز سابقتها
+  if (!isLessonUnlocked(COURSE, lessonId)) {
+    toast('أكمل المرحلة السابقة أولًا 🔒');
+    location.hash = '#/';
+    return;
+  }
 
   const ls = lessonState(lessonId);
   const blocks = lesson.blocks || [];
@@ -333,10 +340,14 @@ export function renderLesson(app, lessonId) {
     if (result.score === result.total && result.total > 0) grantBadge('perfect');
     confetti();
 
-    const next = unit.lessons[lessonIdx + 1];
+    // المرحلة التالية عبر كامل المسار (وليس داخل الوحدة فقط)
+    const flat = [];
+    COURSE.units.forEach(u => u.lessons.forEach(l => flat.push(l)));
+    const fi = flat.findIndex(l => l.id === lessonId);
+    const next = flat[fi + 1];
     const actions = [];
-    if (next) actions.push(el('a', { class: 'btn wide', href: `#/lesson/${next.id}` }, `الدرس التالي: ${next.title} ←`));
-    actions.push(el('a', { class: 'btn secondary wide', href: `#/unit/${unit.id}` }, 'العودة للوحدة'));
+    if (next) actions.push(el('a', { class: 'btn wide', href: `#/lesson/${next.id}` }, `🔓 المرحلة التالية: ${next.title} ←`));
+    actions.push(el('a', { class: 'btn secondary wide', href: '#/' }, 'خريطة الرحلة'));
 
     stage.innerHTML = '';
     stage.append(resultCard(result, {

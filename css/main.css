@@ -122,10 +122,17 @@ button { font-family: inherit; }
   display: flex; align-items: center; justify-content: space-between;
   padding: 0 16px; max-width: 760px; margin: 0 auto;
 }
-.tb-stats { display: flex; gap: 10px; font-weight: 700; font-size: 15px; }
+.tb-brand {
+  display: flex; align-items: center; gap: 7px;
+  font-weight: 800; font-size: 14.5px; color: var(--c-text);
+  min-width: 0;
+}
+.tb-brand img { border-radius: 6px; flex: none; }
+.tb-stats { display: flex; gap: 10px; font-weight: 700; font-size: 14px; align-items: center; }
 .tb-xp { color: var(--c-amber); }
 .tb-streak { color: #fb923c; }
-.tb-level { font-size: 13px; color: var(--c-text2); font-weight: 700; }
+.tb-level { font-size: 12px; color: var(--c-text2); font-weight: 700; }
+@media (max-width: 380px) { .tb-level { display: none; } }
 .tb-levelbar { height: 4px; background: rgba(255,255,255,.06); }
 #tb-levelfill { height: 100%; width: 0%; background: var(--grad-water); border-radius: 999px; transition: width .6s ease; }
 
@@ -268,6 +275,75 @@ h1.page-title { font-size: 22px; font-weight: 800; margin: 6px 0 4px; }
 .ln-title { font-weight: 700; font-size: 15px; }
 .ln-meta { display: flex; gap: 8px; align-items: center; font-size: 12px; color: var(--c-text2); flex-wrap: wrap; }
 .ln-xp { font-size: 12.5px; color: var(--c-amber); font-weight: 800; flex: none; }
+
+/* ---------- خريطة الرحلة (مراحل اللعبة) ---------- */
+.jmap-zone {
+  display: flex; align-items: center; gap: 10px;
+  margin: 18px 0 6px;
+  padding: 10px 14px;
+  background: linear-gradient(90deg, color-mix(in srgb, var(--zc) 14%, transparent), transparent 70%);
+  border-inline-start: 4px solid var(--zc);
+  border-radius: 12px;
+}
+.jmap-zone .jz-ic { color: var(--zc); display: flex; }
+.jmap-zone .jz-t { font-weight: 800; font-size: 15.5px; flex: 1; min-width: 0; }
+.jmap-zone .jz-p { font-size: 12.5px; font-weight: 800; color: var(--c-text2); }
+
+.jmap-sec { position: relative; }
+.jmap-svg, .jmap-svg svg { position: absolute; inset: 0; width: 100%; height: 100%; }
+
+.jmap-node {
+  position: absolute; width: 68px;
+  background: none; border: none; padding: 0; cursor: pointer;
+  display: flex; flex-direction: column; align-items: center; gap: 2px;
+  font-family: inherit; color: var(--c-text);
+  -webkit-tap-highlight-color: transparent;
+}
+.jn-circle {
+  width: 58px; height: 58px; border-radius: 50%;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 21px; font-weight: 800;
+  background: var(--c-surface); color: var(--c-text2);
+  border: 3px solid var(--c-border2);
+  box-shadow: 0 4px 12px rgba(0,0,0,.25);
+  transition: transform .15s;
+}
+.jmap-node:active .jn-circle { transform: scale(.94); }
+.jmap-node.done .jn-circle {
+  background: color-mix(in srgb, var(--zc) 22%, var(--c-surface));
+  border-color: var(--zc); color: var(--c-text);
+}
+.jmap-node.cur { width: 76px; }
+.jmap-node.cur .jn-circle {
+  width: 66px; height: 66px; font-size: 24px;
+  background: var(--grad-water); color: #06283d;
+  border-color: var(--c-amber);
+  animation: pulse-halo 1.8s ease-in-out infinite;
+}
+.jmap-node.locked .jn-circle { opacity: .55; font-size: 17px; }
+.jmap-node.locked { cursor: not-allowed; }
+@keyframes pulse-halo {
+  0%, 100% { box-shadow: 0 0 0 0 rgba(251,191,36,.45), 0 4px 14px rgba(0,0,0,.3); }
+  50% { box-shadow: 0 0 0 12px rgba(251,191,36,0), 0 4px 14px rgba(0,0,0,.3); }
+}
+.jn-me {
+  position: absolute; top: -26px; font-size: 24px;
+  animation: bob 1.6s ease-in-out infinite;
+  filter: drop-shadow(0 3px 4px rgba(0,0,0,.4));
+}
+.jn-stars {
+  font-size: 13px; letter-spacing: 1px; color: var(--c-amber);
+  min-height: 16px; font-weight: 800;
+  text-shadow: 0 1px 2px rgba(0,0,0,.4);
+}
+.jn-title {
+  font-size: 10.5px; font-weight: 700; color: var(--c-text2);
+  max-width: 86px; line-height: 1.35;
+  overflow: hidden; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical;
+  text-align: center;
+}
+.jmap-node.cur .jn-title { color: var(--c-text); }
+.jmap-node.shake { animation: shake .35s; }
 
 /* ---------- Lesson player ---------- */
 .lp-head { display: flex; align-items: center; gap: 10px; margin-bottom: 14px; }

@@ -1,9 +1,9 @@
 // شاشة الوحدة: الاختبار القبلي + الدروس مرتبة حسب الخطة
-import { el, icon } from '../ui.js';
+import { el, icon, toast } from '../ui.js';
 import { getState, save, isLessonDone } from '../store.js';
 import { runQuiz, resultCard } from '../quiz.js';
 import { award, XP } from '../game.js';
-import { tallyConcepts, orderLessons, lessonPriority, lessonPriorityChip, unitStatus, unitStatusChip } from '../personalize.js';
+import { tallyConcepts, isLessonUnlocked, lessonStars, lessonPriority, lessonPriorityChip, unitStatus, unitStatusChip } from '../personalize.js';
 import { COURSE } from '../../data/course.js';
 import { QUIZZES } from '../../data/quizzes.js';
 
@@ -46,27 +46,31 @@ export function renderUnit(app, unitId) {
     }
 
     // الدروس
-    const ordered = orderLessons(unitId, u.lessons);
-    const personalized = ordered !== u.lessons && !st.pre[unitId]?.skipped && st.pre[unitId]?.conceptOk;
-    if (personalized) {
-      body.append(el('p', { class: 'small', style: 'color:var(--c-amber); font-weight:700; margin:4px 2px 10px' },
-        '✨ رُتبت الدروس حسب حاجتك — الأهم لك أولًا'));
-    }
-
-    ordered.forEach(l => {
+    u.lessons.forEach(l => {
       const done = isLessonDone(l.id);
+      const unlocked = isLessonUnlocked(COURSE, l.id);
       const p = lessonPriority(unitId, l);
       const pchip = lessonPriorityChip(p);
-      body.append(el('a', { class: `lesson-node ${done ? 'done' : ''}`, href: `#/lesson/${l.id}` },
-        el('div', { class: 'ln-status' }, done ? icon('circle-check') : icon('book')),
+      const titleLine = el('div', { class: 'ln-title' }, l.title,
+        done ? el('span', { class: 'chip ok' }, '★'.repeat(lessonStars(l.id)) || '✓') : '');
+      const nodeChildren = [
+        el('div', { class: 'ln-status' }, unlocked ? (done ? icon('circle-check') : icon('book')) : '🔒'),
         el('div', { class: 'ln-body' },
-          el('div', { class: 'ln-title' }, l.title),
+          titleLine,
           el('div', { class: 'ln-meta' },
             `⏱️ ${l.minutes} د`,
             pchip ? el('span', { class: `chip ${pchip.cls}` }, pchip.txt) : '',
           ),
         ),
-      ));
+      ];
+      if (unlocked) {
+        body.append(el('a', { class: `lesson-node ${done ? 'done' : ''}`, href: `#/lesson/${l.id}` }, nodeChildren));
+      } else {
+        body.append(el('div', {
+          class: 'lesson-node', style: 'opacity:.55',
+          onclick: () => toast('أكمل المرحلة السابقة أولًا 🔒'),
+        }, nodeChildren));
+      }
     });
   }
 

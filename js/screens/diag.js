@@ -3,7 +3,7 @@ import { el, icon } from '../ui.js';
 import { getState, save } from '../store.js';
 import { runQuiz, resultCard } from '../quiz.js';
 import { award, grantBadge, XP } from '../game.js';
-import { tallyByUnit, recommendedUnit } from '../personalize.js';
+import { tallyByUnit, overallDiagLevel } from '../personalize.js';
 import { QUIZZES } from '../../data/quizzes.js';
 import { COURSE } from '../../data/course.js';
 
@@ -61,7 +61,7 @@ export function renderDiag(app) {
 export function renderPlan(app) {
   app.innerHTML = '';
   const s = getState();
-  const rec = recommendedUnit(COURSE);
+  const overall = overallDiagLevel();
 
   const rows = COURSE.units.map(u => {
     const us = s.diag.unitScores[u.id] || { ok: 0, total: 0 };
@@ -81,12 +81,17 @@ export function renderPlan(app) {
   app.append(
     el('div', { style: 'padding-top:16px' },
       el('div', { class: 'center', style: 'font-size:52px' }, '🗺️'),
-      el('h1', { class: 'page-title center' }, 'خطتك الشخصية جاهزة!'),
-      el('p', { class: 'page-sub center' }, 'حددنا لك أين تركّز طاقتك. المواضيع المعلّمة بالنار 🔥 هي الأهم لك.'),
+      el('h1', { class: 'page-title center' }, 'مستواك العام محدد!'),
+      overall ? el('div', { class: 'card center', style: 'border-color: rgba(251,191,36,.4)' },
+        el('div', { style: 'font-size:44px' }, overall.icon),
+        el('div', { style: 'font-weight:800; font-size:18px; margin-top:4px' }, overall.label),
+        el('div', { class: 'small muted', style: 'margin-top:2px' }, `${overall.ok}/${overall.total}`),
+        el('div', { class: 'pbar', style: 'margin-top:10px' }, el('div', { style: `width:${overall.pct}%` })),
+      ) : '',
+      el('p', { class: 'page-sub center' }, 'هذه خريطة قوّتك — سنركّز داخل كل مرحلة على نقاط ضعفك ونكرر عليها.'),
       el('div', { class: 'card' }, rows),
-      el('div', { class: 'card', style: 'border-color: rgba(251,191,36,.4)' },
-        el('div', { style: 'font-weight:800; color:var(--c-amber)' }, '⭐ نقطة الانطلاق المقترحة'),
-        el('div', {}, icon(rec.icon, 'sm'), ' ' + rec.title),
+      el('div', { class: 'card' },
+        el('div', { class: 'small muted' }, 'رحلتك تمر بكل المراحل بالترتيب — كل مرحلة تفتح بإنجاز سابقتها. التشخيص لا يقفز بك مراحل؛ بل يوجّه التركيز داخلها.'),
       ),
       el('button', { class: 'btn wide', onclick: () => { location.hash = '#/'; } }, 'إلى خريطة الرحلة 🚀'),
     )

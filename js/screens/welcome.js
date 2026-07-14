@@ -2,7 +2,7 @@
 import { el } from '../ui.js';
 import { getState, save } from '../store.js';
 
-const AVATARS = ['🧑‍🔧', '👨‍🔧', '👩‍🔧', '🦾', '🤖', '🦅'];
+const AVATARS = ['🧑‍🔧', '👷', '🦾', '🤖', '🦅'];
 
 export function renderWelcome(app) {
   const s = getState();

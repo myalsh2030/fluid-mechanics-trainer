@@ -49,6 +49,47 @@ export function orderLessons(unitId, lessons) {
     .map(x => x.l);
 }
 
+// ---- نموذج المراحل التسلسلية: كل درس «مرحلة» تُفتح بإنجاز سابقتها ----
+export function flatLessons(course) {
+  const out = [];
+  course.units.forEach(u => u.lessons.forEach(l => out.push({ unit: u, lesson: l })));
+  return out;
+}
+
+export function isLessonUnlocked(course, lessonId) {
+  const flat = flatLessons(course);
+  const i = flat.findIndex(x => x.lesson.id === lessonId);
+  if (i <= 0) return i === 0; // الأولى مفتوحة دائمًا
+  const prev = flat[i - 1].lesson.id;
+  return !!getState().lessons[prev]?.done;
+}
+
+// المرحلة الحالية: أول درس غير مكتمل
+export function currentLesson(course) {
+  const flat = flatLessons(course);
+  return flat.find(x => !getState().lessons[x.lesson.id]?.done) || flat[flat.length - 1];
+}
+
+// نجوم المرحلة من نتيجة نقطة التفتيش: 3 كاملة، 2 من 70%، 1 لأقل
+export function lessonStars(lessonId) {
+  const q = getState().lessons[lessonId]?.quiz;
+  if (!q || !q.total) return 0;
+  const pct = q.score / q.total * 100;
+  return pct >= 100 ? 3 : pct >= 70 ? 2 : 1;
+}
+
+// المستوى العام بعد التشخيصي: نسبة إجمالية + وصف
+export function overallDiagLevel() {
+  const d = getState().diag;
+  if (!d?.answers?.length) return null;
+  const ok = d.answers.filter(a => a.ok).length;
+  const pct = Math.round(ok / d.answers.length * 100);
+  const tier = pct >= 70 ? { label: 'مستوى قوي', icon: '🏆' }
+    : pct >= 40 ? { label: 'مستوى متوسط', icon: '💪' }
+    : { label: 'قاعدة تتأسس', icon: '🌱' };
+  return { pct, ok, total: d.answers.length, ...tier };
+}
+
 // الوحدة المقترح البدء بها بعد التشخيصي
 export function recommendedUnit(course) {
   const s = getState();
