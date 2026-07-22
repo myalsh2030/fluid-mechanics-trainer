@@ -1,5 +1,5 @@
 ﻿// عامل الخدمة: كاش كامل للعمل دون اتصال
-const CACHE_VERSION = 'fm-v7';
+const CACHE_VERSION = 'fm-v8';
 
 const ASSETS = [
   './',
@@ -46,6 +46,7 @@ const ASSETS = [
   './data/course.js',
   './data/quizzes.js',
   './data/glossary.js',
+  './data/glossary-figs.js',
   './data/unit1.js',
   './data/unit2.js',
   './data/unit3.js',

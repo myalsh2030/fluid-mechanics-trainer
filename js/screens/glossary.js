@@ -3,6 +3,7 @@ import { el } from '../ui.js';
 import { getState, save } from '../store.js';
 import { grantBadge } from '../game.js';
 import { GLOSSARY } from '../../data/glossary.js';
+import { FIGS } from '../../data/glossary-figs.js';
 
 export function renderGlossary(app) {
   const s = getState();
@@ -22,10 +23,12 @@ export function renderGlossary(app) {
       return;
     }
     for (const g of items) {
+      const fig = FIGS[g.en];
       list.append(el('div', { class: 'glo-item' },
         el('div', { class: 'g-ar' }, g.ar),
         el('div', { class: 'g-en' }, g.en),
         el('div', { class: 'g-def' }, g.def || ''),
+        fig ? el('div', { class: 'g-fig', html: fig }) : '',
       ));
     }
   }
@@ -33,7 +36,7 @@ export function renderGlossary(app) {
   search.addEventListener('input', () => draw(search.value));
 
   app.append(
-    el('h1', { class: 'page-title' }, '📖 مسرد المصطلحات'),
+    el('h1', { class: 'page-title' }, '📖 قائمة المصطلحات'),
     el('p', { class: 'page-sub' }, 'المصطلحات التي ستقابلها في كتالوجات المعدات ولوحات المضخات'),
     search,
     list,

@@ -556,10 +556,12 @@ h1.page-title { font-size: 22px; font-weight: 800; margin: 6px 0 4px; }
   padding: 12px 16px; margin-bottom: 14px;
 }
 .glo-search:focus { outline: 2px solid rgba(56,189,248,.5); }
-.glo-item { display: flex; align-items: baseline; gap: 10px; padding: 10px 2px; border-bottom: 1px solid var(--c-border); }
+.glo-item { display: flex; flex-wrap: wrap; align-items: baseline; gap: 10px; padding: 10px 2px 12px; border-bottom: 1px solid var(--c-border); }
 .glo-item .g-ar { font-weight: 800; font-size: 15px; flex: none; }
 .glo-item .g-en { direction: ltr; color: var(--c-water2); font-size: 13px; font-weight: 700; flex: none; }
 .glo-item .g-def { color: var(--c-text2); font-size: 13px; flex: 1; min-width: 180px; }
+.glo-item .g-fig { flex-basis: 100%; margin-top: 2px; background: var(--c-surface); border: 1px solid var(--c-border); border-radius: 12px; padding: 8px 10px; }
+.glo-item .g-fig svg { width: 100%; height: auto; max-height: 180px; display: block; margin: 0 auto; }
 
 /* ---------- Labs hub ---------- */
 .lab-card {
